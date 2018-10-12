@@ -7,7 +7,7 @@ const userSchema = new Schema({
         type: String,
         required:true
     },
-    Trabajo: [{
+    trabajo: [{
         type: Schema.Types.ObjectId,
         ref: 'Trabajo'
       }],

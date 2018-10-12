@@ -65,12 +65,12 @@ app.locals.title = 'Proyect 3';
 const index = require('./routes/index');
 const users = require('./routes/users')
 const auth = require('./routes/auth')
-//const trabajos = require('./routes/trabajos')
+const trabajos = require('./routes/trabajos')
 
 app.use('/users', users)
 app.use('/', index);
 app.use('/', auth)
-//app.use('/trabajos', trabajos)
+app.use('/trabajos', trabajos)
 
 
 
