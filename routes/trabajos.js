@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const User = require('../models/User')
 const Trabajo = require('../models/Trabajo')
-const {generateToken, verifyToken} = require('../helpers/jwt')
+const {verifyToken} = require('../helpers/jwt')
 const uploadCloud = require('../helpers/cloudinary')
 
 
@@ -29,20 +29,19 @@ router.post('/', verifyToken, uploadCloud.single("image"), (req,res,next) =>{
 
 //ver publicaciones
 
-router.get('/',(req,res,next) =>{
-  res.send('hola')
-  // Trabajo.find()
-  //   .then(trabajos=>{        
-  //     res.status(200).json({trabajos})
-  //   })
-  //   .catch(e=>{
-  //     next(e)
-  //   })
+router.get('/',verifyToken, (req,res,next) =>{
+  Trabajo.find()
+     .then(trabajos=>{        
+       res.status(200).json({trabajos})
+     })
+     .catch(e=>{
+       next(e)
+     })
 })
 
 //borramos el post
 
-router.post('/remove', (req, res, next) => {
+router.post('/remove',verifyToken, (req, res, next) => {
   Trabajo.findByIdAndRemove(req.body.trabajoId)
   .then(t => {
     res.status(200).json(t)

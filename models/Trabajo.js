@@ -2,17 +2,6 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const trabajoSchema = new Schema({
-    location: {
-      type: {
-        type: String,
-        default: "Point"
-      },
-      address: String,
-      coordinates: {
-        lat: { type: Number },
-        lng: { type: Number }
-      }
-    },
     name:String,
     text: String,
     imageURL: String,
