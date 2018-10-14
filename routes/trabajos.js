@@ -6,35 +6,38 @@ const {generateToken, verifyToken} = require('../helpers/jwt')
 const uploadCloud = require('../helpers/cloudinary')
 
 
-router.get('/private', verifyToken, (req,res,next)=>{
-  res.send("Esto sololo ven los usuarios logueados como tu " + req.user.username)
-})
+// router.get('/private', verifyToken, (req,res,next)=>{
+//   res.send("Esto sololo ven los usuarios logueados como tu " + req.user.username)
+// })
 
 //publicar 
 
-router.post('/new', uploadCloud.single("image"), (req,res,next) =>{
+router.post('/', verifyToken, uploadCloud.single("image"), (req,res,next) =>{
   Trabajo.create(req.body)
   .then(trabajo => {
     User.findByIdAndUpdate(req.user._id, {
       $push: { trabajo: trabajo._id }
     })
   .then(t=>{
-    res.status(200).json(t)
+    console.log(t)
   })
+  .catch(e=>res.json(e))
+  res.status(200).json(trabajo)
 })
   .catch(e=>next(e))
 })
 
 //ver publicaciones
 
-router.get('/trabajos', (req,res,next) =>{
-  Trabajo.find({user: req.user._id})
-    .then(trabajos=>{        
-      res.status(200).json(trabajos)
-    })
-    .catch(e=>{
-      next(e)
-    })
+router.get('/',(req,res,next) =>{
+  res.send('hola')
+  // Trabajo.find()
+  //   .then(trabajos=>{        
+  //     res.status(200).json({trabajos})
+  //   })
+  //   .catch(e=>{
+  //     next(e)
+  //   })
 })
 
 //borramos el post
@@ -48,3 +51,6 @@ router.post('/remove', (req, res, next) => {
     next(error)
   })
 });
+
+
+module.exports = router

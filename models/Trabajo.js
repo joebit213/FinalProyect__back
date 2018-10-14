@@ -13,6 +13,7 @@ const trabajoSchema = new Schema({
         lng: { type: Number }
       }
     },
+    name:String,
     text: String,
     imageURL: String,
     user: {
