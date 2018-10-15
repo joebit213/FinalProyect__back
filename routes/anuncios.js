@@ -6,9 +6,9 @@ const {verifyToken} = require('../helpers/jwt')
 const uploadCloud = require('../helpers/cloudinary')
 
 
-// router.get('/private', verifyToken, (req,res,next)=>{
-//   res.send("Esto sololo ven los usuarios logueados como tu " + req.user.username)
-// })
+router.get('/private', verifyToken, (req,res,next)=>{
+  res.send("Esto sololo ven los usuarios logueados como tu " + req.user.username)
+})
 
 //publicar 
 
