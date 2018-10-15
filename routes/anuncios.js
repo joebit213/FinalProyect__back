@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const User = require('../models/User')
-const Trabajo = require('../models/Trabajo')
+const Trabajo = require('../models/Anuncio')
 const {verifyToken} = require('../helpers/jwt')
 const uploadCloud = require('../helpers/cloudinary')
 
@@ -13,10 +13,12 @@ const uploadCloud = require('../helpers/cloudinary')
 //publicar 
 
 router.post('/', verifyToken, uploadCloud.single("image"), (req,res,next) =>{
+  req.body["user"] = req.user._id;
+  if(req.file) req.body['imageURL'] = '/anuncios/' + req.file.url
   Trabajo.create(req.body)
   .then(trabajo => {
     User.findByIdAndUpdate(req.user._id, {
-      $push: { trabajo: trabajo._id }
+      $push: { anuncio: anuncio._id }
     })
   .then(t=>{
     console.log(t)
@@ -29,27 +31,19 @@ router.post('/', verifyToken, uploadCloud.single("image"), (req,res,next) =>{
 
 //ver publicaciones
 
-router.get('/',verifyToken, (req,res,next) =>{
-  Trabajo.find()
-     .then(trabajos=>{        
-       res.status(200).json({trabajos})
+router.get('/anuncios', (req,res,next) =>{
+  Anuncio.find()
+     .then(anuncios=>{        
+       res.status(200).json({anuncios})
+       //console.log(trabajos)
      })
      .catch(e=>{
-       next(e)
+       //next(e)
+       console.log(e)
      })
 })
 
-//borramos el post
 
-router.post('/remove',verifyToken, (req, res, next) => {
-  Trabajo.findByIdAndRemove(req.body.trabajoId)
-  .then(t => {
-    res.status(200).json(t)
-  })
-  .catch(error => {
-    next(error)
-  })
-});
 
 
 module.exports = router

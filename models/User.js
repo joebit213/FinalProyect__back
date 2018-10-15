@@ -7,7 +7,7 @@ const userSchema = new Schema({
         type: String,
         required:true
     },
-    trabajo: [{
+    anuncio: [{
         type: Schema.Types.ObjectId,
         ref: 'Trabajo'
       }],
